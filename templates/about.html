@@ -1,608 +1,281 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>about</title>
-    <link rel="shortcut icon" type="x-icon" href="../static/icon.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.5;
-            color: #212529;
-        }
-
-        /* Navigation Styles */
-        .navbar {
-            background-color: #212529;
-            color: white;
-            padding: 1rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar-brand img {
-            vertical-align: middle;
-        }
-
-        .navbar-toggler {
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.25rem 0.75rem;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 1.25rem;
-        }
-
-        .navbar-toggler:hover {
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        /* Offcanvas Sidebar */
-        .offcanvas {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 300px;
-            height: 100%;
-            background-color: #212529;
-            color: white;
-            transition: right 0.3s ease-in-out;
-            z-index: 1050;
-            overflow-y: auto;
-        }
-
-        .offcanvas.show {
-            right: 0;
-        }
-
-        .offcanvas-left {
-            right: auto;
-            left: -100%;
-            transition: left 0.3s ease-in-out;
-        }
-
-        .offcanvas-left.show {
-            left: 0;
-        }
-
-        .offcanvas-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1040;
-            display: none;
-        }
-
-        .offcanvas-backdrop.show {
-            display: block;
-        }
-
-        .offcanvas-header {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .offcanvas-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-        }
-
-        .btn-close {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            opacity: 0.8;
-        }
-
-        .btn-close:hover {
-            opacity: 1;
-        }
-
-        .offcanvas-body {
-            padding: 1rem;
-        }
-
-        .navbar-nav {
-            list-style: none;
-            padding: 0;
-        }
-
-        .nav-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.75);
-            text-decoration: none;
-            display: block;
-            padding: 0.5rem 1rem;
-            transition: color 0.15s ease-in-out;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: white;
-        }
-
-        /* Dropdown */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .dropdown-toggle::after {
-            content: " ▼";
-            font-size: 0.8em;
-        }
-
-        .dropdown-menu {
-            list-style: none;
-            background-color: #343a40;
-            margin: 0;
-            padding: 0.5rem 0;
-            display: none;
-            border-radius: 0.25rem;
-            margin-left: 1rem;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            color: rgba(255, 255, 255, 0.75);
-            text-decoration: none;
-            display: block;
-            padding: 0.5rem 1.5rem;
-            transition: background-color 0.15s ease-in-out;
-        }
-
-        .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        /* Search Form */
-        .search-form {
-            margin-top: 1rem;
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .form-control {
-            flex: 1;
-            padding: 0.375rem 0.75rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            background-color: #fff;
-        }
-
-        .btn {
-            padding: 0.375rem 0.75rem;
-            border: none;
-            border-radius: 0.25rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 400;
-            text-align: center;
-            transition: all 0.15s ease-in-out;
-        }
-
-        .btn-success {
-            background-color: #198754;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #157347;
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-        }
-
-        /* Content Styles */
-        .a001 {
-            width: 23%;
-        }
-
-        .b09 {
-            margin: 13vh 0 4vh 45vw;
-        }
-
-        .b123 {
-            margin: 4vh 0 4vh 45vw;
-        }
-
-        .cabc {
-            margin: 4vh 0 4vh 43vw;
-        }
-
-        .b612 {
-            width: 80%;
-            padding: 0 0 2vw 45vw;
-        }
-
-        .row {
-            padding: 0 0 0 17vw;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .rounded-circle {
-            border-radius: 50%;
-        }
-
-        h4, h5 {
-            font-weight: 500;
-            margin: 0.5rem 0;
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: #212529;
-            color: white;
-            padding: 3rem 0;
-            margin-top: 2rem;
-            width: 100%;
-        }
-
-        footer .nav {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        footer .nav-item {
-            margin: 0;
-        }
-
-        footer .nav-link {
-            padding: 1rem;
-        }
-
-        footer p {
-            text-align: center;
-            margin: 0;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- navigation -->
-    <nav class="navbar">
-        <a class="navbar-brand" href="{{ url_for('about')}}">
-            <img src="../static/icon.png" width="37" height="32" alt="Logo">
-        </a>
-        <button class="navbar-toggler" onclick="toggleOffcanvas('offcanvasDarkNavbar')" aria-label="Toggle navigation">
-            ☰
-        </button>
-    </nav>
-
-    <div class="offcanvas-backdrop" id="backdrop" onclick="closeAllOffcanvas()"></div>
-
-    <div class="offcanvas" id="offcanvasDarkNavbar">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Sales Prediction</h5>
-            <button type="button" class="btn-close" onclick="toggleOffcanvas('offcanvasDarkNavbar')">&times;</button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('index')}}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('form')}}">Prediction</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" onclick="toggleDropdown(event)">
-                        Documentation
-                    </a>
-                    <ul class="dropdown-menu" id="docDropdown">
-                        <li><a class="dropdown-item"
-                                href="https://drive.google.com/file/d/1FBjYS6tp5qeMka01bWzOKWoRFnSlDGUD/view?usp=drivesdk"
-                                target="_blank" rel="noopener noreferrer">Code</a>
-                        </li>
-                        <li><a class="dropdown-item" href="{{ url_for('graph')}}">Graph</a></li>
-                        <li><a class="dropdown-item" href="https://drive.google.com/file/d/1vyNXlFZU41N1UqirVSTeWxj16b-s-sXR/view?usp=share_link" target="_blank" rel="noopener noreferrer">Report</a></li>
-                        <li><a class="dropdown-item" href="#">Presentation</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('about')}}">About Us</a>
-                </li>
-            </ul>
-            <form class="search-form" role="search">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-
-    <h2 class="b09">Co-ordinator</h2>
-
-    <div class="col-lg-4 b612">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-            role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#6c757d"></rect>
-        </svg>
-        <h5>Dr. Vishakha chourasia</h5>
+{% extends 'base.html' %}
+{% block title %}About Us {% endblock title %}
+{% block link %}
+<style>
+    body {
+        padding-top: 70px;
+    }
+    
+    .team-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .section-title {
+        text-align: center;
+        color: #2c3e50;
+        margin: 40px 0 30px 0;
+        font-size: 2em;
+    }
+    
+    .team-member {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .team-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 40px;
+        margin-top: 30px;
+    }
+    
+    .member-card {
+        width: 250px;
+        text-align: center;
+    }
+    
+    .placeholder-circle {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: #6c757d;
+        margin: 0 auto 15px auto;
+    }
+    
+    .member-card h4 {
+        margin: 10px 0 5px 0;
+        color: #2c3e50;
+    }
+    
+    .member-card p {
+        color: #666;
+        margin: 5px 0;
+    }
+    
+    .contribution-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+    
+    .contribution-btn:hover {
+        background: #0056b3;
+    }
+    
+    /* Simple Drawer */
+    .drawer {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100vh;
+        background: #fff;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        z-index: 9999;
+        transition: left 0.3s;
+        overflow-y: auto;
+    }
+    
+    .drawer.open {
+        left: 0;
+    }
+    
+    .drawer-header {
+        padding: 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .drawer-header h3 {
+        margin: 0;
+        font-size: 1.1em;
+    }
+    
+    .drawer-close {
+        float: right;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+    }
+    
+    .drawer-body {
+        padding: 20px;
+    }
+    
+    .drawer-body ul {
+        list-style: disc;
+        padding-left: 20px;
+        margin: 10px 0;
+    }
+    
+    .drawer-body li {
+        margin: 8px 0;
+    }
+    
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: none;
+        z-index: 9998;
+    }
+    
+    .overlay.show {
+        display: block;
+    }
+</style>
+{% endblock link %}
+{% block body %}
+<div class="team-section">
+    <h2 class="section-title">Co-ordinator</h2>
+    <div class="team-member">
+        <div class="placeholder-circle"></div>
+        <h5>Dr. Vishakha Chourasia</h5>
         <p>Faculty, IIIT Bhopal</p>
     </div>
-    <h2 class="b123">Supervisor</h2>
-    <div class="col-lg-4 b612">
-        <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-            role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#6c757d"></rect>
-        </svg>
+
+    <h2 class="section-title">Supervisor</h2>
+    <div class="team-member">
+        <div class="placeholder-circle"></div>
         <h5>Dr. Deepa Sharma</h5>
         <p>Faculty, IIIT Bhopal</p>
     </div>
 
-    <h2 class="cabc">Group Members</h2>
-    <div class="row">
-        <div class="col-lg-4 a001">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#6c757d"></rect>
-            </svg>
+    <h2 class="section-title">Group Members</h2>
+    <div class="team-row">
+        <!-- Abhay Sharma -->
+        <div class="member-card">
+            <div class="placeholder-circle"></div>
             <h4>Abhay Sharma</h4>
-            <p>3<sup>rd</sup>year, IT Branch</p>
-            <p>
-                <button class="btn btn-primary" onclick="toggleOffcanvasLeft('AS')">
-                    Contribution »
-                </button>
-            </p>
+            <p>3<sup>rd</sup> year, IT Branch</p>
+            <button class="contribution-btn" onclick="openDrawer('AS')">Contribution »</button>
         </div>
 
-        <div class="col-lg-4 a001">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#6c757d"></rect>
-            </svg>
+        <!-- Manak Verma -->
+        <div class="member-card">
+            <div class="placeholder-circle"></div>
             <h4>Manak Verma</h4>
-            <p>3<sup>rd</sup>year, IT Branch</p>
-            <p>
-                <button class="btn btn-primary" onclick="toggleOffcanvasLeft('MV')">
-                    Contribution »
-                </button>
-            </p>
+            <p>3<sup>rd</sup> year, IT Branch</p>
+            <button class="contribution-btn" onclick="openDrawer('MV')">Contribution »</button>
         </div>
 
-        <div class="col-lg-4 a001">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#6c757d"></rect>
-            </svg>
+        <!-- Vimlesh Kumar -->
+        <div class="member-card">
+            <div class="placeholder-circle"></div>
             <h4>Vimlesh Kumar</h4>
-            <p>3<sup>rd</sup>year, IT Branch</p>
-            <p>
-                <button class="btn btn-primary" onclick="toggleOffcanvasLeft('VK')">
-                    Contribution »
-                </button>
-            </p>
+            <p>3<sup>rd</sup> year, IT Branch</p>
+            <button class="contribution-btn" onclick="openDrawer('VK')">Contribution »</button>
         </div>
 
-        <div class="col-lg-4 a001">
-            <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg"
-                role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#6c757d"></rect>
-            </svg>
-            <h4>Vivek singh</h4>
-            <p>3<sup>rd</sup>year, IT Branch</p>
-            <p>
-                <button class="btn btn-primary" onclick="toggleOffcanvasLeft('VS')">
-                    Contribution »
-                </button>
-            </p>
+        <!-- Vivek Singh -->
+        <div class="member-card">
+            <div class="placeholder-circle"></div>
+            <h4>Vivek Singh</h4>
+            <p>3<sup>rd</sup> year, IT Branch</p>
+            <button class="contribution-btn" onclick="openDrawer('VS')">Contribution »</button>
         </div>
     </div>
+</div>
 
-    <!-- Contribution Offcanvas Panels -->
-    <div class="offcanvas offcanvas-left" id="AS">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Abhay Sharma(20U03007)</h5>
-            <button type="button" class="btn-close" onclick="toggleOffcanvasLeft('AS')">&times;</button>
-        </div>
-        <div class="offcanvas-body">
-            <div>
-                Contributed in:
-                <ul>
-                    <li>Exploratory Data Analysis</li>
-                    <li>Data Preperation</li>
-                    <li>Model Building</li>
-                    <li>Model Training</li>
-                    <li>Model Deployment</li>
-                    <li>Hyperparameter Tuning</li>
-                    <li>Model Optimization</li>
-                    <li>Back-End Deployment</li>
-                    <li>Testing</li>
-                </ul>
-            </div>
-        </div>
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="AS">
+    <div class="drawer-header">
+        <button class="drawer-close" onclick="closeDrawer()">&times;</button>
+        <h3>Abhay Sharma (20U03007)</h3>
     </div>
-
-    <div class="offcanvas offcanvas-left" id="MV">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Manak Verma(20U03064)</h5>
-            <button type="button" class="btn-close" onclick="toggleOffcanvasLeft('MV')">&times;</button>
-        </div>
-        <div class="offcanvas-body">
-            <div>
-                Contributed in:
-                <ul>
-                    <li>Front-End development</li>
-                    <li>Documentation</li>
-                    <li>Testing</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-left" id="VK">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Vimlesh Kumar(20U03048)</h5>
-            <button type="button" class="btn-close" onclick="toggleOffcanvasLeft('VK')">&times;</button>
-        </div>
-        <div class="offcanvas-body">
-            <div>
-                Contributed in:
-                <ul>
-                    <li>Data Collection</li>
-                    <li>Data Cleaning</li>
-                    <li>Model Understanding</li>
-                    <li>Documentation</li>
-                    <li>Testing</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-left" id="VS">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title">Vivek Singh(20U03069)</h5>
-            <button type="button" class="btn-close" onclick="toggleOffcanvasLeft('VS')">&times;</button>
-        </div>
-        <div class="offcanvas-body">
-            <div>
-                Contributed in:
-                <ul>
-                    <li>Data Collection</li>
-                    <li>Collecting Prior Knowledge</li>
-                    <li>Testing</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <ul class="nav">
-            <li class="nav-item">
-                <a href="{{ url_for('about')}}" class="nav-link">
-                    <img src="../static/icon.png" width="37" height="32" alt="Logo">
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('index')}}" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('form')}}" class="nav-link">Results</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('resource')}}" class="nav-link">Resources</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('about')}}" class="nav-link">About</a>
-            </li>
+    <div class="drawer-body">
+        <strong>Contributed in:</strong>
+        <ul>
+            <li>Exploratory Data Analysis</li>
+            <li>Data Preparation</li>
+            <li>Model Building</li>
+            <li>Model Training</li>
+            <li>Model Deployment</li>
+            <li>Hyperparameter Tuning</li>
+            <li>Model Optimization</li>
+            <li>Back-End Deployment</li>
+            <li>Testing</li>
         </ul>
-        <p>
-            <a href="https://www.iiitbhopal.ac.in/" target="_blank" rel="noopener noreferrer">
-                © 2023 Group No.09, IIIT Bhopal<br>
-                Created in the partial fulfillment for the award of the degree of<br>
-                BACHELOR OF TECHNOLOGY<br>
-                (Department of Information Technology)
-            </a>
-        </p>
-    </footer>
+    </div>
+</div>
 
-    <script>
-        function toggleOffcanvas(id) {
-            const offcanvas = document.getElementById(id);
-            const backdrop = document.getElementById('backdrop');
-            offcanvas.classList.toggle('show');
-            backdrop.classList.toggle('show');
-        }
+<div class="drawer" id="MV">
+    <div class="drawer-header">
+        <button class="drawer-close" onclick="closeDrawer()">&times;</button>
+        <h3>Manak Verma (20U03064)</h3>
+    </div>
+    <div class="drawer-body">
+        <strong>Contributed in:</strong>
+        <ul>
+            <li>Front-End Development</li>
+            <li>Documentation</li>
+            <li>Testing</li>
+        </ul>
+    </div>
+</div>
 
-        function toggleOffcanvasLeft(id) {
-            const offcanvas = document.getElementById(id);
-            const backdrop = document.getElementById('backdrop');
-            offcanvas.classList.toggle('show');
-            backdrop.classList.toggle('show');
-        }
+<div class="drawer" id="VK">
+    <div class="drawer-header">
+        <button class="drawer-close" onclick="closeDrawer()">&times;</button>
+        <h3>Vimlesh Kumar (20U03048)</h3>
+    </div>
+    <div class="drawer-body">
+        <strong>Contributed in:</strong>
+        <ul>
+            <li>Data Collection</li>
+            <li>Data Cleaning</li>
+            <li>Model Understanding</li>
+            <li>Documentation</li>
+            <li>Testing</li>
+        </ul>
+    </div>
+</div>
 
-        function closeAllOffcanvas() {
-            const offcanvases = document.querySelectorAll('.offcanvas');
-            const backdrop = document.getElementById('backdrop');
-            offcanvases.forEach(offcanvas => offcanvas.classList.remove('show'));
-            backdrop.classList.remove('show');
-            
-            // Close dropdowns
-            const dropdowns = document.querySelectorAll('.dropdown-menu');
-            dropdowns.forEach(dropdown => dropdown.classList.remove('show'));
-        }
+<div class="drawer" id="VS">
+    <div class="drawer-header">
+        <button class="drawer-close" onclick="closeDrawer()">&times;</button>
+        <h3>Vivek Singh (20U03069)</h3>
+    </div>
+    <div class="drawer-body">
+        <strong>Contributed in:</strong>
+        <ul>
+            <li>Data Collection</li>
+            <li>Collecting Prior Knowledge</li>
+            <li>Testing</li>
+        </ul>
+    </div>
+</div>
 
-        function toggleDropdown(event) {
-            event.preventDefault();
-            const dropdownMenu = event.target.nextElementSibling;
-            dropdownMenu.classList.toggle('show');
-        }
+<script>
+var currentDrawer = null;
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.matches('.dropdown-toggle')) {
-                const dropdowns = document.querySelectorAll('.dropdown-menu');
-                dropdowns.forEach(dropdown => {
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
-                });
-            }
-        });
-    </script>
-</body>
+function openDrawer(id) {
+    closeDrawer();
+    currentDrawer = document.getElementById(id);
+    var overlay = document.getElementById('overlay');
+    if (currentDrawer) currentDrawer.classList.add('open');
+    if (overlay) overlay.classList.add('show');
+}
 
-</html>
+function closeDrawer() {
+    if (currentDrawer) currentDrawer.classList.remove('open');
+    var overlay = document.getElementById('overlay');
+    if (overlay) overlay.classList.remove('show');
+    currentDrawer = null;
+}
+</script>
+{% endblock body %}

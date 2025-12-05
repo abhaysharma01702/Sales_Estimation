@@ -24,7 +24,7 @@ def data():
 def graph():
     return render_template('graph.html')
 
-@app.route('/result')
+@app.route('/form')
 def form():
     return render_template('form.html')
 
@@ -56,7 +56,7 @@ def result():
 
     y_pred = model.predict(x_standard)
 
-    return render_template('form.html', results =" The predicted value is{}".format(y_pred) )
+    return render_template('form.html', prediction="₹{:.2f}".format(y_pred[0]))
     # ({'Prediction': float(y_pred)})
    
 
