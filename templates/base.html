@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 
@@ -10,14 +9,260 @@
 
         {% endblock title %}
     </title>
-    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename= 'icon.png')}}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="shortcut icon" type="x-icon" href="../static/icon.png">
     {% block link %}
         
     {% endblock link %}
-    <style>  
-        
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.5;
+            color: #212529;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background-color: #212529;
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            vertical-align: middle;
+        }
+
+        .navbar-toggler {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 1.25rem;
+        }
+
+        .navbar-toggler:hover {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* Offcanvas Sidebar */
+        .offcanvas {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100%;
+            background-color: #212529;
+            color: white;
+            transition: right 0.3s ease-in-out;
+            z-index: 1050;
+            overflow-y: auto;
+        }
+
+        .offcanvas.show {
+            right: 0;
+        }
+
+        .offcanvas-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+        }
+
+        .offcanvas-backdrop.show {
+            display: block;
+        }
+
+        .offcanvas-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offcanvas-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        .offcanvas-body {
+            padding: 1rem;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 1rem;
+            transition: color 0.15s ease-in-out;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .dropdown-toggle::after {
+            content: " ▼";
+            font-size: 0.8em;
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            background-color: #343a40;
+            margin: 0;
+            padding: 0.5rem 0;
+            display: none;
+            border-radius: 0.25rem;
+            margin-left: 1rem;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 1.5rem;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Search Form */
+        .search-form {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            background-color: #fff;
+        }
+
+        .btn {
+            padding: 0.375rem 0.75rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .btn-success {
+            background-color: #198754;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #157347;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        footer .nav {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        footer .nav-item {
+            margin: 0;
+        }
+
+        footer .nav-link {
+            padding: 1rem;
+        }
+
+        footer p {
+            text-align: center;
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 
 </head>
@@ -25,83 +270,82 @@
 
 <body>
 
-    <nav class="navbar navbar-dark bg-dark fixed-top ">
-
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('about')}}"><img src="{{ url_for('static', filename= 'icon.png')}}" width="37"
-                    height="32" class="d-inline-block align-text-top"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Sales Prediction</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link " aria-current="page" href="{{ url_for('index')}}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('form')}}">Prediction</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Documentation
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item"
-                                        href="https://drive.google.com/file/d/1FBjYS6tp5qeMka01bWzOKWoRFnSlDGUD/view?usp=drivesdk"
-                                        target="_blank" rel="noopener noreferrer">Code</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{{ url_for('graph')}}">Graph</a></li>
-                                <li><a class="dropdown-item" href="https://drive.google.com/file/d/1vyNXlFZU41N1UqirVSTeWxj16b-s-sXR/view?usp=share_link" target="_blank" rel="noopener noreferrer">Report</a></li>
-                                <li><a class="dropdown-item" href="#">Presentation</a></li>
-                            </ul>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('about')}}">About Us</a>
-                        </li>
-                        </li>
-                    </ul>
-                    <form class="d-flex mt-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('about')}}">
+            <img src="../static/icon.png" width="37" height="32" alt="Logo">
+        </a>
+        <button class="navbar-toggler" onclick="toggleOffcanvas('offcanvasDarkNavbar')" aria-label="Toggle navigation">
+            ☰
+        </button>
     </nav>
+
+    <div class="offcanvas-backdrop" id="backdrop" onclick="closeAllOffcanvas()"></div>
+
+    <div class="offcanvas" id="offcanvasDarkNavbar">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Sales Prediction</h5>
+            <button type="button" class="btn-close" onclick="toggleOffcanvas('offcanvasDarkNavbar')">&times;</button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('form')}}">Prediction</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" onclick="toggleDropdown(event)">
+                        Documentation
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item"
+                                href="https://drive.google.com/file/d/1FBjYS6tp5qeMka01bWzOKWoRFnSlDGUD/view?usp=drivesdk"
+                                target="_blank" rel="noopener noreferrer">Code</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{{ url_for('graph')}}">Graph</a></li>
+                        <li><a class="dropdown-item" href="https://drive.google.com/file/d/1vyNXlFZU41N1UqirVSTeWxj16b-s-sXR/view?usp=share_link" target="_blank" rel="noopener noreferrer">Report</a></li>
+                        <li><a class="dropdown-item" href="#">Presentation</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('about')}}">About Us</a>
+                </li>
+            </ul>
+            <form class="search-form" role="search">
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 
     {% block body %}
 
     {% endblock body %}
 
-    <footer class=" py-5 my-4 col bg-dark">
-
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item text-light"><a href="#" class="nav-link pt-1 mt-1 px-4 text-white change01"><a
-                        class="navbar-brand" href="{{ url_for('about')}}"><img
-                            src="{{ url_for('static', filename= 'icon.png')}}" width="37" height="32"
-                            class="d-inline-block align-text-top"></a></a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('index')}}"
-                    class="nav-link px-2 pt-4 text-white">Home</a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('form')}}"
-                    class="nav-link px-2 pt-4 text-white">Results</a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('resource')}}"
-                    class="nav-link px-2 pt-4 text-white">Resources</a>
+    <footer>
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="{{ url_for('about')}}" class="nav-link">
+                    <img src="../static/icon.png" width="37" height="32" alt="Logo">
+                </a>
             </li>
-            <li class="nav-item text-light"><a href="{{ url_for('about')}}"
-                    class="nav-link px-2 pt-4 text-white">About</a></li>
+            <li class="nav-item">
+                <a href="{{ url_for('index')}}" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('form')}}" class="nav-link">Results</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('resource')}}" class="nav-link">Resources</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('about')}}" class="nav-link">About</a>
+            </li>
         </ul>
-        <p class="text-center text-light"><a href="https://www.iiitbhopal.ac.in/"
-                class="link-light text-light text-decoration-none" target="_blank" rel="noopener noreferrer">© 2023
-                Group No.09, IIIT Bhopal<br>
+        <p>
+            <a href="https://www.iiitbhopal.ac.in/" target="_blank" rel="noopener noreferrer">
+                © 2023 Group No.09, IIIT Bhopal<br>
                 Created in the partial fulfillment for the award of the degree of<br>
                 BACHELOR OF TECHNOLOGY<br>
                 (Department of Information Technology)
@@ -109,130 +353,44 @@
         </p>
     </footer>
 
+    <script>
+        function toggleOffcanvas(id) {
+            const offcanvas = document.getElementById(id);
+            const backdrop = document.getElementById('backdrop');
+            offcanvas.classList.toggle('show');
+            backdrop.classList.toggle('show');
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+        function closeAllOffcanvas() {
+            const offcanvases = document.querySelectorAll('.offcanvas');
+            const backdrop = document.getElementById('backdrop');
+            offcanvases.forEach(offcanvas => offcanvas.classList.remove('show'));
+            backdrop.classList.remove('show');
+            
+            // Close dropdowns
+            const dropdowns = document.querySelectorAll('.dropdown-menu');
+            dropdowns.forEach(dropdown => dropdown.classList.remove('show'));
+        }
 
-</body>
+        function toggleDropdown(event) {
+            event.preventDefault();
+            const dropdownMenu = event.target.nextElementSibling;
+            dropdownMenu.classList.toggle('show');
+        }
 
-=======
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        {% block title %}
-
-        {% endblock title %}
-    </title>
-    <link rel="shortcut icon" type="x-icon" href="{{ url_for('static', filename= 'icon.png')}}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    {% block link %}
-        
-    {% endblock link %}
-    <style>  
-        
-    </style>
-
-</head>
-
-
-<body>
-
-    <nav class="navbar navbar-dark bg-dark fixed-top ">
-
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('about')}}"><img src="{{ url_for('static', filename= 'icon.png')}}" width="37"
-                    height="32" class="d-inline-block align-text-top"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
-                aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Sales Prediction</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link " aria-current="page" href="{{ url_for('index')}}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('form')}}">Prediction</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Documentation
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item"
-                                        href="https://drive.google.com/file/d/1FBjYS6tp5qeMka01bWzOKWoRFnSlDGUD/view?usp=drivesdk"
-                                        target="_blank" rel="noopener noreferrer">Code</a>
-                                </li>
-                                <li><a class="dropdown-item" href="{{ url_for('graph')}}">Graph</a></li>
-                                <li><a class="dropdown-item" href="https://drive.google.com/file/d/1vyNXlFZU41N1UqirVSTeWxj16b-s-sXR/view?usp=share_link" target="_blank" rel="noopener noreferrer">Report</a></li>
-                                <li><a class="dropdown-item" href="#">Presentation</a></li>
-                            </ul>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('about')}}">About Us</a>
-                        </li>
-                        </li>
-                    </ul>
-                    <form class="d-flex mt-3" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    {% block body %}
-
-    {% endblock body %}
-
-    <footer class=" py-5 my-4 col bg-dark">
-
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item text-light"><a href="#" class="nav-link pt-1 mt-1 px-4 text-white change01"><a
-                        class="navbar-brand" href="{{ url_for('about')}}"><img
-                            src="{{ url_for('static', filename= 'icon.png')}}" width="37" height="32"
-                            class="d-inline-block align-text-top"></a></a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('index')}}"
-                    class="nav-link px-2 pt-4 text-white">Home</a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('form')}}"
-                    class="nav-link px-2 pt-4 text-white">Results</a></li>
-            <li class="nav-item text-light"><a href="{{ url_for('resource')}}"
-                    class="nav-link px-2 pt-4 text-white">Resources</a>
-            </li>
-            <li class="nav-item text-light"><a href="{{ url_for('about')}}"
-                    class="nav-link px-2 pt-4 text-white">About</a></li>
-        </ul>
-        <p class="text-center text-light"><a href="https://www.iiitbhopal.ac.in/"
-                class="link-light text-light text-decoration-none" target="_blank" rel="noopener noreferrer">© 2023
-                Group No.09, IIIT Bhopal<br>
-                Created in the partial fulfillment for the award of the degree of<br>
-                BACHELOR OF TECHNOLOGY<br>
-                (Department of Information Technology)
-            </a>
-        </p>
-    </footer>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.matches('.dropdown-toggle')) {
+                const dropdowns = document.querySelectorAll('.dropdown-menu');
+                dropdowns.forEach(dropdown => {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 
->>>>>>> temp/main
 </html>
