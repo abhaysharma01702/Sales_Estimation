@@ -18,5 +18,5 @@ pip install -r requirements.txt
 
 ## Step 04
 ```bash
-python run.py
+python app.py
 ```
